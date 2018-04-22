@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: kube-system
+  name: logstash
+spec:
+  selector:
+    app: logstash
+  ports:
+  - protocol: TCP
+    port: 5044
+    targetPort: beats

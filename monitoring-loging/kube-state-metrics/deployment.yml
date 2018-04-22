@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: kube-state-metrics
+  template:
+    metadata:
+      name: kube-state-metrics
+      labels:
+        name: kube-state-metrics
+    spec:
+      containers:
+      - name: kube-state-metrics
+        image: gcr.io/google_containers/kube-state-metrics:v0.4.1
+        ports:
+        - containerPort: 8080

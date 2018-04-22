@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: 'true'
+  name: kube-state-metrics
+  labels:
+    name: kube-state-metrics
+spec:
+  selector:
+    name: kube-state-metrics
+  ports:
+  - name: kube-state-metrics
+    port: 80
+    targetPort: 8080

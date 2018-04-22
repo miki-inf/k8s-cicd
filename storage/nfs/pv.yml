@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-vol
+spec:
+  capacity:
+    storage: 8Gi
+  claimRef:
+    name: nfs-vol
+    namespace: default
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /export/bigdrive
+    server: 192.168.1.180

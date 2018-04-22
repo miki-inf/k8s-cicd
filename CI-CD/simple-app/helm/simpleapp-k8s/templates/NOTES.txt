@@ -1,0 +1,6 @@
+simple-app for Kubernetes deployed!
+
+Get the simple-app URL
+===================
+export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "simple-app-k8s.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo http://${SERVICE_IP}:{{ .Values.service.externalPort }}/

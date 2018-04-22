@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: prometheus
+  name: prometheus
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: prometheus
+  template:
+    metadata:
+      name: prometheus
+      labels:
+        name: prometheus
+    spec:
+      containers:
+      - image: quay.io/prometheus/prometheus:v2.1.0
+        name: prometheus
+        command:
+        - "/bin/prometheus"
+        args:
+        - "--config.file=/etc/prometheus/prometheus.yml"
+        - "--storage.tsdb.path=/prometheus"
+        - "--storage.tsdb.retention=1h"
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/prometheus"
+          name: data
+        - mountPath: "/etc/prometheus"
+          name: config-volume
+        - mountPath: "/etc/prometheus-rules"
+          name: rules-volume
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+      volumes:
+      - emptyDir: {}
+        name: data
+      - configMap:
+          name: prometheus-config
+        name: config-volume
+      - configMap:
+          name: prometheus-k8s-rules
+        name: rules-volume

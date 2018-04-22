@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis-es
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: redis-es
+  minReadySeconds: 20
+  template:
+    metadata:
+      labels:
+        app: redis-es
+    spec:
+      containers:
+      - name: redis-es
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        image: redis:latest
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+#           limits:
+#             cpu: 400m
+#             memory: 1024Mi
+      imagePullSecrets:
+        - name: regsecret

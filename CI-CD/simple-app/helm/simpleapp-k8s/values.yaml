@@ -1,0 +1,37 @@
+# Default values for jenkins-k8s.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+initContainerImage: "ubuntu"
+
+replicaCount: 1
+imagePullSecrets:
+image:
+  repository: frontend
+  tag: lts-k8s
+  pullPolicy: Always
+did:
+  image:
+    repository: frontend
+    tag: frontend
+## Set the admin user
+## Make sure to replace the default password
+service:
+  name: simple-app
+  type: NodePort
+  ## Whitelist the IPs that can access Jenkins
+  externalPort: 9000
+  internalPort: 9000
+## Make sure the javaOps and resources are aligned to avoid conflicts
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 300m
+    memory: 2Gi
+storage:
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+  capacity: 50Gi

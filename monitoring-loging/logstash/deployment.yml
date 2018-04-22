@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: kube-system
+  name: logstash
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: logstash
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5044
+          name: beats
+        image: docker.elastic.co/logstash/logstash:5.5.3
+        env:
+        - name: REDIS
+          value: redis-es
+        - name: ES
+          value: elasticsearch
+      imagePullSecrets:
+        - name: regsecret

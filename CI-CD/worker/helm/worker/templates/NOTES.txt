@@ -1,0 +1,5 @@
+worker-app for Kubernetes deployed!
+
+Get the worker-app URL
+===================
+No service for a worker
